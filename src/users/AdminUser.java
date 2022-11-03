@@ -1,5 +1,7 @@
 package users;
 
+import java.util.ArrayList;
+
 import device.Device;
 public class AdminUser implements User {
     private Device device;
@@ -8,7 +10,7 @@ public class AdminUser implements User {
     private boolean micro = false;
     private boolean camera = false;
     private boolean in_meeting = false;
-
+    private ArrayList<String> inbox = new ArrayList<>();
     
     @Override
     public String getName() {
@@ -80,5 +82,17 @@ public class AdminUser implements User {
     public void setInMeeting(boolean value) {
         // TODO Auto-generated method stub
         in_meeting = value;
+    }
+
+    @Override
+    public ArrayList<String> getInbox() {
+        // TODO Auto-generated method stub
+        return inbox;
+    }
+
+    @Override
+    public void setInbox(ArrayList<String> inbox) {
+        // TODO Auto-generated method stub
+        this.inbox = inbox;
     }
 }

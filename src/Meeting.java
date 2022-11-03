@@ -1,10 +1,21 @@
 import java.util.ArrayList;
 
 public class Meeting {
+    public boolean active;
     public int id;
     private int password;
     private int host_id;
-    private ArrayList<Integer> users_id;
+    private ArrayList<Integer> users_id = new ArrayList<>();
+    private ArrayList<String> publicMessages = new ArrayList<>();
+    public ArrayList<String> getPublicMessages() {
+        return publicMessages;
+    }
+    public boolean isActive(){
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     public int getHost_id() {
         return host_id;
     }

@@ -1,5 +1,7 @@
 package users;
 
+import java.util.ArrayList;
+
 import device.Device;
 
 public interface User {
@@ -14,5 +16,7 @@ public interface User {
     public boolean getMicro();
     public void setMicro(boolean value);
     public boolean isInMeeting();
-    public void setInMeeting(boolean value);    
+    public void setInMeeting(boolean value);
+    public ArrayList<String> getInbox();
+    public void setInbox(ArrayList<String> inbox);    
 }
