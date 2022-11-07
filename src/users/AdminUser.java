@@ -11,7 +11,7 @@ public class AdminUser implements User {
     private boolean camera = false;
     private boolean in_meeting = false;
     private ArrayList<String> inbox = new ArrayList<>();
-    
+    /** This are the overrides from the interface */
     @Override
     public String getName() {
         // TODO Auto-generated method stub
