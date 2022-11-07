@@ -13,18 +13,35 @@ public class Controller {
     private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Meeting> meetings = new ArrayList<>();
     private Random random = new Random();
+    /**
+     * To get the meetings
+     * @return
+     */
     public ArrayList<Meeting> getMeetings() {
         return meetings;
     }
+    /**
+     * To get the users
+     */
     public ArrayList<User> getUsers() {
         return users;
     }
+    /**
+     * To set the meetings
+     */
     public void setMeetings(ArrayList<Meeting> meetings) {
         this.meetings = meetings;
     }
+    /**
+     * To set the users
+     * @param users
+     */
     public void setUsers(ArrayList<User> users) {
         this.users = users;
     }
+    /**
+     * To create an id
+     */
     private int createId(){
         while (true){
             int id = random.nextInt(1000000000)+1; 
@@ -33,6 +50,11 @@ public class Controller {
             }
         }
     }
+    /**
+     * To create a device
+     * @param newUser
+     * @return
+     */
     private Device createDevice(User newUser){
         if (newUser.getId()<=333333333){
             Car car = new Car();
@@ -69,8 +91,11 @@ public class Controller {
         }
         return null;
     }
+    /**
+     * To init users
+     */
     public void createUsers(){
-        for (int k = 0 ; k < 50 ; k++ ){
+        for (int k = 0 ; k < 10 ; k++ ){
             User newUser = new NomalUser();
             newUser.setName("User"+String.valueOf(k));
             newUser.setId(createId());
@@ -91,6 +116,11 @@ public class Controller {
             getMeetings().add(newMeeting);
         }
     }
+    /**
+     * To close a meeting
+     * @param user
+     * @return
+     */
     public boolean closeMeeting(User user){
         for (int k = 0 ; k < meetings.size() ; k++  ){
             if (meetings.get(k).getHost_id()== user.getId()){
@@ -101,6 +131,11 @@ public class Controller {
         }
         return false;
     }
+    /**
+     * To init a meeting
+     * @param user
+     * @return
+     */
     public boolean initMeeting(User user){
         for (int k = 0 ; k < meetings.size() ; k++  ){
             if (meetings.get(k).getHost_id()== user.getId()){
@@ -118,6 +153,9 @@ public class Controller {
         }
         return -1;
     }
+    /**
+     * To show a device
+     */
     public String showDevice(Device device){
         String s_device ="";
         if (device.getClass() == Car.class){
@@ -149,6 +187,9 @@ public class Controller {
         } 
         return s_device;
     }
+    /**
+     * To show the individuals in the meeting
+     */
     public String showIndividualsMeeting(User admin){
         int index = searchMeeting(admin);
         String s_return = "";
@@ -179,18 +220,39 @@ public class Controller {
             s_return ="The meeting doesn't exist\n"; return s_return;
         }
     }
+    /**
+     * To activate a camera
+     */
     public String activateCamera(User user){
         user.setCamera(false);return ("The user "+user.getName()+" has open camera");
     }
+    /**
+     * To deactivate a camera
+     * @param user
+     * @return
+     */
     public String deactivateCamera(User user){
         user.setCamera(false);return ("The user "+user.getName()+" has closed camera");
     }
+    /**
+     * To unmute
+     * @param user
+     * @return
+     */
     public String userUnmuting(User user){
         user.setMicro(true);return ("The user "+user.getName()+" is unmuted");
     }
+    /**
+     * To mute
+     * @param user
+     * @return
+     */
     public String userMuting(User user){
         user.setMicro(false);return ("The user "+user.getName()+" is muted");
     }
+    /**
+     * To use commands of admin
+     */
     public String adminCommands(int index, int option){
         try {
             User user_to = users.get(index);
@@ -211,6 +273,11 @@ public class Controller {
             return "The user entered doesn't exist\n";
         }
     }
+    /**
+     * To print private messagess
+     * @param user
+     * @return
+     */
     public String checkUserMessages(User user){
         String messages = "PRIVATE MESSAGES\n";
         for (int k = 0 ; k < user.getInbox().size() ; k++){
@@ -218,6 +285,9 @@ public class Controller {
         }
         return messages;
     }
+    /**
+     * To send private messages
+     */
     public String sendPrivateMessages(User user, String message){
         try {
             user.getInbox().add(message);
@@ -227,6 +297,12 @@ public class Controller {
             return "The message couldn't be sent";
         }
     }
+    /**
+     * To send public messages
+     * @param message
+     * @param meetingId
+     * @return
+     */
     public String sendPublicMessage(String message, int meetingId){
         for (int k = 0 ; k < this.meetings.size() ; k++ ){
             if (this.meetings.get(k).getId()==meetingId){
@@ -236,6 +312,13 @@ public class Controller {
         }
         return "The message couldn't be sent to the general chat\n";
     }
+    /**
+     * To enter a meeting
+     * @param user
+     * @param meetingId
+     * @param meetingPassword
+     * @return
+     */
     public boolean enterMeeting(User user, int meetingId, int meetingPassword){
         for (int k = 0 ; k < meetings.size() ; k ++ ){
             if (meetings.get(k).getId()==meetingId && meetings.get(k).getPassword()==meetingPassword){
@@ -245,15 +328,23 @@ public class Controller {
         }
         return false;
     }
+    /**
+     * To show the meetings
+     */
     public String showMeetings(){
         String s_return = "THE MEETINGS ARE\n";
         for (int k = 0 ; k < meetings.size(); k++ ){
-            s_return += "Meeting id: "+meetings.get(k).getId();
-            s_return += "Meeting host: "+users.get(meetings.get(k).getHost_id());
-            s_return += "Password"+meetings.get(k).getPassword();
+            s_return += "\nMeeting id: "+meetings.get(k).getId();
+            s_return += "\nMeeting host id: "+meetings.get(k).getHost_id();
+            s_return += "\nPassword: "+meetings.get(k).getPassword();
         }
         return s_return;
     }
+    /**
+     * To log out from a meeting
+     * @param user
+     * @return
+     */
     public boolean logOutMeeting(User user){
         for (int k = 0 ; k < meetings.size() ; k++  ){
             user.setInMeeting(false);
@@ -264,6 +355,11 @@ public class Controller {
         }
         return false;
     }
+    /**
+     * To get the actual meeting
+     * @param user
+     * @return
+     */
     public int getActualMeeting(User user){
         for (int k = 0 ;  k < meetings.size() ; k++ ){
             if (this.meetings.get(k).getUsers_id().contains(user.getId())){
@@ -272,6 +368,9 @@ public class Controller {
         }
         return 0;
     }
+    /**
+     * To show the public messages
+     */
     public String showPublicMessages(int meetingId){
         String messages = "PUBLIC MESSAGES\n";
         for ( int k = 0 ; k < this.meetings.size() ; k++ ){
@@ -283,5 +382,24 @@ public class Controller {
             }
         }
         return messages;
+    }
+    /**
+     * To print a user
+     */
+    public String printUser(User user){
+        String string = "id: "+user.getId()+"\nname: "+user.getName();
+        if (user.getMicro()){
+            string+="\nmicrophone: on";
+        }
+        else{
+            string+="\nmicrophone: off";
+        }
+        if (user.getCamera()){
+            string+="\ncamera: on";
+        }
+        else{
+            string+="\ncamera: off";
+        }
+        return string;
     }
 }

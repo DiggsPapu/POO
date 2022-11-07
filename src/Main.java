@@ -3,23 +3,31 @@ import java.util.Scanner;
 
 import device.Car;
 import device.Cel;
-import device.Device;
 import device.Tablet;
 import users.NomalUser;
 import users.User;
 public class Main {
     private static Scanner scan = new Scanner(System.in);
-    private static Random random = new Random();
     private static Controller control = new Controller();
     private static int actual_meeting = 0;
+    /**
+     * To print the principal menu of admin
+     */
     private static int printMenuPrincipalAdmin(){
         System.out.println("1- Init conference\n2- Device menu\n3- Close program\n");
         return enterInteger();
     }
+    /**
+     * To print the principal menu of user
+     * @return
+     */
     private static int printMenuPrincipalUser(){
         System.out.println("1- Log into conference\n2- Device menu\n3- Close program\n");
         return enterInteger();
     }
+    /**
+     * To enter a valid integer
+     */
     private static int enterInteger(){
         while (true){
             System.out.println("Enter a valid integer: ");
@@ -32,20 +40,28 @@ public class Main {
             }
         }
     }
+    /**
+     * To print the device menu
+     */
     private static int printMenuDevice(User user){
         if (user.getDevice().getClass()==Car.class){
             System.out.println("1- Turn on car\n2- Turn off car\n3- Start driving\n4- Stop driving");
             return enterInteger();
         }
         else if (user.getDevice().getClass()==Cel.class){
-            System.out.println("1- Turn on car\n2- Turn off car\n3- Start a call\n4- Stop call");
+            System.out.println("1- Turn on cel\n2- Turn off cel\n3- Start a call\n4- Stop call");
             return enterInteger();
         }
         else{
-            System.out.println("1- Turn on car\n2- Turn off car\n3- Start an app\n4- Stop an app");
+            System.out.println("1- Turn on tablet\n2- Turn off tablet\n3- Start an app\n4- Stop an app");
             return enterInteger();
         }
     }
+    /**
+     * To handle de device selection
+     * @param option
+     * @param user
+     */
     private static void handleDevice(int option, User user){
         if (user.getDevice().getClass() == Car.class){
             Car car = (Car) user.getDevice();
@@ -120,6 +136,9 @@ public class Main {
             }
         }
     }
+    /**
+     * To print the menu in the meeting in the admin
+     */
     private static int printMenuMeetingAdmin(User user){
         System.out.println("Select between:\n1- Close the meeting\n2- Mute\n3- Unmute\n4- Deactivate camera\n5- Activate camera\n6- Unmute other user\n7- Mute other user\n8- Activate camera other user\n9- Deactivate camera other user\n10- Close program\n11- Send a message in the principal text\n12- Send a private message\n13- Check inbox\n");
         return enterInteger();
@@ -180,10 +199,20 @@ public class Main {
             }
         }
     }
+    /**
+     * Print the menu for the user
+     * @param user
+     * @return
+     */
     private static int printMenuMeetingUser(User user){
         System.out.println("Select between:\n1- Close the meeting\n2- Mute\n3- Unmute\n4- Deactivate camera\n5- Activate camera\n6- Close program\n7- Send a message in the principal text\n8- Send a private message\n");
         return enterInteger();
     }
+    /**
+     * To make the user turn
+     * @param user
+     * @return
+     */
     private static boolean userTurn(User user){
         if (!user.isInMeeting()){
             switch (printMenuPrincipalUser()) {
@@ -233,7 +262,10 @@ public class Main {
             }
         }
     }
-    
+    /**
+     * Main
+     * @param args
+     */
     public static void main(String[] args) {
         control.createUsers();
         boolean bool = true;
@@ -241,6 +273,8 @@ public class Main {
             for (int k = 0 ; k < control.getUsers().size(); k++ ){
                 User user = control.getUsers().get(k);
                 if ( user.getClass() == NomalUser.class ){
+                    System.out.println("User normal");
+                    control.printUser(user);
                     if (userTurn(user)){
                     }
                     else{
@@ -248,6 +282,8 @@ public class Main {
                     }
                 }
                 else{
+                    System.out.println("User admin");
+                    control.printUser(user);
                     if (adminTurn(user)){
                     }
                     else{
